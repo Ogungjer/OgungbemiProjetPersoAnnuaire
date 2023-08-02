@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.Design;
+using ProjetPersoAnnuaire.Context;
+using ProjetPersoAnnuaire.Services.SitesService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ISiteService, SiteService>();
+builder.Services.AddDbContext<DataContextAnnuaire> (options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+}
+);
 
 var app = builder.Build();
 
