@@ -10,6 +10,7 @@ namespace ProjetPersoAnnuaire.Controllers
     [ApiController]
     public class SiteController : Controller
     {
+
         private readonly ISiteService _siteService;
 
         public SiteController(ISiteService siteService)

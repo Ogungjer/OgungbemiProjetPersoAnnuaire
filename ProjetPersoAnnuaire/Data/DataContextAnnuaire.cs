@@ -19,6 +19,7 @@ namespace ProjetPersoAnnuaire.Context
         }
 
         public DbSet<Site> Sites { get; set; }
+        public DbSet<Departement> Departements { get; set; }
 
     }
 }

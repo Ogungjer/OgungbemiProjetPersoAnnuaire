@@ -10,8 +10,8 @@ namespace ProjetPersoAnnuaire.Services.SitesService
     {
         Task<IEnumerable<Site>> GetAllSites();
         Task<Site> GetSiteById(int id);
-        Task<int> AddSite(Site hero);
-        Task<int> UpdateSite(Site hero);
+        Task<int> AddSite(Site site);
+        Task<int> UpdateSite(Site site);
         Task<int> DeleteSite(int id);
 
     }
