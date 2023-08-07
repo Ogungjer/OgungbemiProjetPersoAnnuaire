@@ -3,6 +3,7 @@ using System.ComponentModel.Design;
 using ProjetPersoAnnuaire.Context;
 using ProjetPersoAnnuaire.Services.SitesService;
 using ProjetPersoAnnuaire.Services.DepartementService;
+using ProjetPersoAnnuaire.Services.EmployeService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ISiteService, SiteService>();
 builder.Services.AddScoped<IDepartementService, DepartementService>();
+builder.Services.AddScoped<IEmployeService, EmployeService>();
 
 builder.Services.AddDbContext<DataContextAnnuaire> (options =>
 {
