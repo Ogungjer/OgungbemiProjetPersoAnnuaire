@@ -36,24 +36,38 @@ namespace ProjetPersoAnnuaire.Services.DepartementService
 
         public async Task<int> AddDepartement(Departement departement)
         {
-            // Ajoute le département au contexte de base de données
-            _dbContext.Departements.Add(departement);
 
-            // Enregistre les modifications de manière asynchrone dans la base de données
-            await _dbContext.SaveChangesAsync();
 
-            // Retourne l'ID du nouveau département ajouté
-            return departement.DepartementID;
+            if (!_dbContext.Employes.Any(d => d.DepartementID == departement.DepartementID))
+            {
+
+                // Ajoute le département au contexte de base de données
+                _dbContext.Departements.Add(departement);
+
+                // Enregistre les modifications de manière asynchrone dans la base de données
+                await _dbContext.SaveChangesAsync();
+
+                // Retourne l'ID du nouveau département ajouté
+                return departement.DepartementID;
+
+            }
+            return -1;
         }
 
         public async Task<int> UpdateDepartement(Departement departement)
         {
-            // Utilisation de Entity Framework Core pour marquer l'entité département comme modifiée dans le contexte de base de données
-            _dbContext.Entry(departement).State = EntityState.Modified;
 
-            await _dbContext.SaveChangesAsync();
+            if (!_dbContext.Employes.Any(d => d.DepartementID == departement.DepartementID))
+            {
+                // Utilisation de Entity Framework Core pour marquer l'entité département comme modifiée dans le contexte de base de données
+                _dbContext.Entry(departement).State = EntityState.Modified;
 
-            return departement.DepartementID;
+                await _dbContext.SaveChangesAsync();
+
+                return departement.DepartementID;
+            }
+            return -1;
+                
         }
 
         public async Task<int> DeleteDepartement(int id)
@@ -64,11 +78,17 @@ namespace ProjetPersoAnnuaire.Services.DepartementService
                 return 0;
             }
 
-            _dbContext.Departements.Remove(departement);
+            if (!_dbContext.Employes.Any(d => d.DepartementID == departement.DepartementID))
+            {
+                _dbContext.Departements.Remove(departement);
 
-            await _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
 
-            return departement.DepartementID;
+                return departement.DepartementID;
+
+            }
+            return -1;
+               
         }
     }
 

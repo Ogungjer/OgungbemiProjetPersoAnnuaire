@@ -29,17 +29,31 @@ namespace ProjetPersoAnnuaire.Services.SitesService
 
 
         public async Task<int> AddSite(Site site)
-        {
-            _dbContext.Sites.Add(site);
-            await _dbContext.SaveChangesAsync();
-            return site.SiteID;
+        {  
+            // Vérifier si aucun employé n'est associé à ce site
+            if (!_dbContext.Employes.Any(e => e.SiteID == site.SiteID)) 
+            {
+                _dbContext.Sites.Add(site);
+                await _dbContext.SaveChangesAsync();
+                return site.SiteID;
+
+            }
+            return -1; 
+           
         }
 
         public async Task<int> UpdateSite(Site site)
         {
-            _dbContext.Entry(site).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-            return site.SiteID;
+            
+            if (!_dbContext.Employes.Any(e => e.SiteID == site.SiteID))
+            {
+                _dbContext.Entry(site).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+                return site.SiteID;
+
+            }
+            return -1;
+       
         }
 
         public async Task<int> DeleteSite(int id)
@@ -50,9 +64,16 @@ namespace ProjetPersoAnnuaire.Services.SitesService
                 return 0;
             }
 
-            _dbContext.Sites.Remove(site);
-            await _dbContext.SaveChangesAsync();
-            return site.SiteID;
+            if (!_dbContext.Employes.Any(e => e.SiteID == site.SiteID))
+            {
+                _dbContext.Sites.Remove(site);
+                await _dbContext.SaveChangesAsync();
+                return site.SiteID;
+
+            }
+            return -1;
+
+           
         }
     }
 
