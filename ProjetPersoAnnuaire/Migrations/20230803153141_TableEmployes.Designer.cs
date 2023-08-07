@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjetPersoAnnuaire.Context;
 
@@ -10,9 +11,11 @@ using ProjetPersoAnnuaire.Context;
 namespace ProjetPersoAnnuaire.Migrations
 {
     [DbContext(typeof(DataContextAnnuaire))]
-    partial class DataContextAnnuaireModelSnapshot : ModelSnapshot
+    [Migration("20230803153141_TableEmployes")]
+    partial class TableEmployes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
