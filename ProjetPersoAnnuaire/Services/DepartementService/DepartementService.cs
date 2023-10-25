@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ProjetPersoAnnuaire.Context;
 using ProjetPersoAnnuaire.Models;
 
@@ -67,7 +64,7 @@ namespace ProjetPersoAnnuaire.Services.DepartementService
                 return departement.DepartementID;
             }
             return -1;
-                
+
         }
 
         public async Task<int> DeleteDepartement(int id)
@@ -88,7 +85,7 @@ namespace ProjetPersoAnnuaire.Services.DepartementService
 
             }
             return -1;
-               
+
         }
     }
 
