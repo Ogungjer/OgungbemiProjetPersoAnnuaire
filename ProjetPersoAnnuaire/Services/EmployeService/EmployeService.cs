@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ProjetPersoAnnuaire.Context;
 using ProjetPersoAnnuaire.Models;
 
@@ -19,12 +16,13 @@ namespace ProjetPersoAnnuaire.Services.EmployeService
 
         public async Task<IEnumerable<Employe>> GetAllEmployes()
         {
-            return await _dbContext.Employes.ToListAsync();
+            return await _dbContext.Employes.Include(s => s.Site).Include(d => d.Departement).ToListAsync();
+            
         }
 
         public async Task<Employe> GetEmployeById(int id)
         {
-            return await _dbContext.Employes.FirstOrDefaultAsync(e => e.EmployeID == id);
+            return await _dbContext.Employes.Include(s => s.Site).Include(d => d.Departement).FirstOrDefaultAsync(e => e.EmployeID == id);
         }
 
 

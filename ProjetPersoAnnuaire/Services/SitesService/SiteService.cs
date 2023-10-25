@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ProjetPersoAnnuaire.Context;
 using ProjetPersoAnnuaire.Models;
 
@@ -29,22 +26,22 @@ namespace ProjetPersoAnnuaire.Services.SitesService
 
 
         public async Task<int> AddSite(Site site)
-        {  
+        {
             // Vérifier si aucun employé n'est associé à ce site
-            if (!_dbContext.Employes.Any(e => e.SiteID == site.SiteID)) 
+            if (!_dbContext.Employes.Any(e => e.SiteID == site.SiteID))
             {
                 _dbContext.Sites.Add(site);
                 await _dbContext.SaveChangesAsync();
                 return site.SiteID;
 
             }
-            return -1; 
-           
+            return -1;
+
         }
 
         public async Task<int> UpdateSite(Site site)
         {
-            
+
             if (!_dbContext.Employes.Any(e => e.SiteID == site.SiteID))
             {
                 _dbContext.Entry(site).State = EntityState.Modified;
@@ -53,7 +50,7 @@ namespace ProjetPersoAnnuaire.Services.SitesService
 
             }
             return -1;
-       
+
         }
 
         public async Task<int> DeleteSite(int id)
@@ -73,7 +70,7 @@ namespace ProjetPersoAnnuaire.Services.SitesService
             }
             return -1;
 
-           
+
         }
     }
 

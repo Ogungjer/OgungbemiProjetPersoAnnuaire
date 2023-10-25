@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using ProjetPersoAnnuaire.Models;
-using System.Threading.Tasks;
 using ProjetPersoAnnuaire.Services.SitesService;
 
 namespace ProjetPersoAnnuaire.Controllers
