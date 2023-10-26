@@ -5,7 +5,7 @@
 namespace ProjetPersoAnnuaire.Migrations
 {
     /// <inheritdoc />
-    public partial class ModifyForeignKeyAndRelations_2 : Migration
+    public partial class AddMapped : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
