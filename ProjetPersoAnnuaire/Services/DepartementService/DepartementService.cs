@@ -33,27 +33,40 @@ namespace ProjetPersoAnnuaire.Services.DepartementService
 
         public async Task<int> AddDepartement(Departement departement)
         {
+            // Recherche le département correspondant au nom donné
+            var existingDepartement = await _dbContext.Departements
+                .FirstOrDefaultAsync(d => d.NomDepartement == departement.NomDepartement);
 
-
-            if (!_dbContext.Employes.Any(d => d.DepartementID == departement.DepartementID))
+            if (existingDepartement != null)
             {
-
-                // Ajoute le département au contexte de base de données
-                _dbContext.Departements.Add(departement);
-
-                // Enregistre les modifications de manière asynchrone dans la base de données
-                await _dbContext.SaveChangesAsync();
-
-                // Retourne l'ID du nouveau département ajouté
-                return departement.DepartementID;
-
+                // Le département existe déjà, vérifiez s'il y a des employés affectés à ce département
+                if (!_dbContext.Employes.Any(e => e.DepartementID == existingDepartement.DepartementID))
+                {
+                    // Aucun employé n'est affecté à ce département
+                    existingDepartement.NomDepartement = departement.NomDepartement;
+                    await _dbContext.SaveChangesAsync();
+                    return existingDepartement.DepartementID;
+                }
+                else
+                {
+                    throw new Exception("Un ou plusieurs salariés sont déjà affectés à ce département.");
+                }
             }
-            return -1;
+            else
+            {
+                // Le département n'existe pas, ajoutez-le
+                _dbContext.Departements.Add(departement);
+                await _dbContext.SaveChangesAsync();
+                return departement.DepartementID;
+            }
         }
+
+
+
 
         public async Task<int> UpdateDepartement(Departement departement)
         {
-
+            // Vérifier si aucun employé n'est associé à ce departement
             if (!_dbContext.Employes.Any(d => d.DepartementID == departement.DepartementID))
             {
                 // Utilisation de Entity Framework Core pour marquer l'entité département comme modifiée dans le contexte de base de données
@@ -63,7 +76,7 @@ namespace ProjetPersoAnnuaire.Services.DepartementService
 
                 return departement.DepartementID;
             }
-            return -1;
+            throw new Exception("Un ou plusieurs salariés sont déjà affectés à ce département.");
 
         }
 
@@ -84,7 +97,7 @@ namespace ProjetPersoAnnuaire.Services.DepartementService
                 return departement.DepartementID;
 
             }
-            return -1;
+            throw new Exception("Un ou plusieurs salariés sont déjà affectés à ce département.");
 
         }
     }
