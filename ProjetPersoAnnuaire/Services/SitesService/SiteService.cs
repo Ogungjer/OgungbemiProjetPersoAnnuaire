@@ -25,21 +25,6 @@ namespace ProjetPersoAnnuaire.Services.SitesService
         }
 
 
-        //public async Task<int> AddSite(Site site)
-        //{
-        //    // Vérifier si aucun employé n'est associé à ce site
-            
-        //    if (!(_dbContext.Employes.Any(e => e.SiteID == site.SiteID)) && (!(_dbContext.Employes.Any(e => e.EmployeSite == site.Ville))))
-        //    {
-        //        _dbContext.Sites.Add(site);
-        //        await _dbContext.SaveChangesAsync();
-        //        return site.SiteID;
-
-        //    }
-        //    return -1;
-
-        //}
-
         public async Task<int> AddSite(Site site)
         {
             // Recherche le site correspondant au nom donné
@@ -48,7 +33,7 @@ namespace ProjetPersoAnnuaire.Services.SitesService
 
             if (existingSite != null)
             {
-                // Le site existe déjà, vérifiez s'il y a des employés affectés à ce site
+                // Le site existe déjà, vérifie s'il y a des employés affectés à ce site
                 if (!_dbContext.Employes.Any(e => e.SiteID == existingSite.SiteID))
                 {
                     // Aucun employé n'est affecté à ce site
@@ -63,7 +48,7 @@ namespace ProjetPersoAnnuaire.Services.SitesService
             }
             else
             {
-                // Le site n'existe pas, ajoutez-le
+                // Le site n'existe pas, ajoute le site
                 _dbContext.Sites.Add(site);
                 await _dbContext.SaveChangesAsync();
                 return site.SiteID;
@@ -74,7 +59,7 @@ namespace ProjetPersoAnnuaire.Services.SitesService
 
         public async Task<int> UpdateSite(Site site)
         {
-            // Vérifier si aucun employé n'est associé à ce departement
+            // Vérifie si aucun employé n'est associé à ce departement
             if (!_dbContext.Employes.Any(e => e.SiteID == site.SiteID))
             { 
                 _dbContext.Entry(site).State = EntityState.Modified;

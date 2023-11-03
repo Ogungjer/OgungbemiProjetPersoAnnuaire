@@ -39,7 +39,7 @@ namespace ProjetPersoAnnuaire.Services.DepartementService
 
             if (existingDepartement != null)
             {
-                // Le département existe déjà, vérifiez s'il y a des employés affectés à ce département
+                // Le département existe déjà, vérifie s'il y a des employés affectés à ce département
                 if (!_dbContext.Employes.Any(e => e.DepartementID == existingDepartement.DepartementID))
                 {
                     // Aucun employé n'est affecté à ce département
@@ -54,7 +54,7 @@ namespace ProjetPersoAnnuaire.Services.DepartementService
             }
             else
             {
-                // Le département n'existe pas, ajoutez-le
+                // Le département n'existe pas, ajoute le département
                 _dbContext.Departements.Add(departement);
                 await _dbContext.SaveChangesAsync();
                 return departement.DepartementID;
@@ -66,7 +66,7 @@ namespace ProjetPersoAnnuaire.Services.DepartementService
 
         public async Task<int> UpdateDepartement(Departement departement)
         {
-            // Vérifier si aucun employé n'est associé à ce departement
+            // Vérifie si aucun employé n'est associé à ce departement
             if (!_dbContext.Employes.Any(d => d.DepartementID == departement.DepartementID))
             {
                 // Utilisation de Entity Framework Core pour marquer l'entité département comme modifiée dans le contexte de base de données
