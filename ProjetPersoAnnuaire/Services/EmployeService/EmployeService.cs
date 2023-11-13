@@ -40,6 +40,32 @@ namespace ProjetPersoAnnuaire.Services.EmployeService
             return employe.EmployeID;
         }
 
+
+        
+        public async Task<IEnumerable<Employe>> SearchEmploye(string? nom = null, string? site = null, string? departement = null)
+        {
+            var query = _dbContext.Employes.Include(s => s.Site).Include(d => d.Departement).AsQueryable();
+
+            if (!string.IsNullOrEmpty(nom))
+            {
+                query = query.Where(e => e.Nom.Contains(nom) || e.Prenom.Contains(nom));
+            }
+
+            if (!string.IsNullOrEmpty(site))
+            {
+                query = query.Where(e => e.Site.Ville.Contains(site));
+            }
+
+            if (!string.IsNullOrEmpty(departement))
+            {
+                query = query.Where(e => e.Departement.NomDepartement.Contains(departement));
+            }
+
+            return await query.ToListAsync();
+        }
+        
+
+
         public async Task<int> DeleteEmploye(int id)
         {
             var employe = await _dbContext.Employes.FindAsync(id);

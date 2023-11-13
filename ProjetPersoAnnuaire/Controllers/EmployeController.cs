@@ -55,6 +55,15 @@ namespace ProjetPersoAnnuaire.Controllers
             return Ok(updatedEmployeId);
         }
 
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Employe>>> SearchEmploye([FromQuery] string? nom = null, [FromQuery] string? site = null, [FromQuery] string? departement = null)
+        {
+            var employes = await _employeService.SearchEmploye(nom, site, departement);
+            return Json(employes);
+        }
+
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<int>> DeleteEmploye(int id)
         {
