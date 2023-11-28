@@ -18,6 +18,19 @@ namespace ProjetPersoAnnuaire.Context
             optionsBuilder.UseSqlServer(connectionString);
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //relations pour Employe
+            modelBuilder.Entity<Employe>()
+                .HasOne(e => e.Site)
+                .WithMany(s => s.Employes)
+                .HasForeignKey(e => e.SiteID);
+
+            modelBuilder.Entity<Employe>()
+                .HasOne(e => e.Departement)
+                .WithMany(d => d.Employes)
+                .HasForeignKey(e => e.DepartementID);
+        }
         public DbSet<Site> Sites { get; set; }
         public DbSet<Departement> Departements { get; set; }
         public DbSet<Employe> Employes { get; set; }

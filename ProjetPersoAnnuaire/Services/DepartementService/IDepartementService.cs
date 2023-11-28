@@ -1,6 +1,4 @@
 ﻿using ProjetPersoAnnuaire.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 
 namespace ProjetPersoAnnuaire.Services.DepartementService

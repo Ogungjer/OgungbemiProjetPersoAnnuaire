@@ -16,7 +16,7 @@ namespace ProjetPersoAnnuaire.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -94,13 +94,13 @@ namespace ProjetPersoAnnuaire.Migrations
             modelBuilder.Entity("ProjetPersoAnnuaire.Models.Employe", b =>
                 {
                     b.HasOne("ProjetPersoAnnuaire.Models.Departement", "Departement")
-                        .WithMany()
+                        .WithMany("Employes")
                         .HasForeignKey("DepartementID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ProjetPersoAnnuaire.Models.Site", "Site")
-                        .WithMany()
+                        .WithMany("Employes")
                         .HasForeignKey("SiteID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -108,6 +108,16 @@ namespace ProjetPersoAnnuaire.Migrations
                     b.Navigation("Departement");
 
                     b.Navigation("Site");
+                });
+
+            modelBuilder.Entity("ProjetPersoAnnuaire.Models.Departement", b =>
+                {
+                    b.Navigation("Employes");
+                });
+
+            modelBuilder.Entity("ProjetPersoAnnuaire.Models.Site", b =>
+                {
+                    b.Navigation("Employes");
                 });
 #pragma warning restore 612, 618
         }

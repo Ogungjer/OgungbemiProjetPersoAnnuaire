@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ProjetPersoAnnuaire.Context;
 using ProjetPersoAnnuaire.Models;
 
@@ -29,31 +26,49 @@ namespace ProjetPersoAnnuaire.Services.SitesService
 
 
         public async Task<int> AddSite(Site site)
-        {  
-            // Vérifier si aucun employé n'est associé à ce site
-            if (!_dbContext.Employes.Any(e => e.SiteID == site.SiteID)) 
+        {
+            // Recherche le site correspondant au nom donné
+            var existingSite = await _dbContext.Sites
+                .FirstOrDefaultAsync(s => s.Ville == site.Ville);
+
+            if (existingSite != null)
             {
+                // Le site existe déjà, vérifie s'il y a des employés affectés à ce site
+                if (!_dbContext.Employes.Any(e => e.SiteID == existingSite.SiteID))
+                {
+                    // Aucun employé n'est affecté à ce site
+                    existingSite.Ville = site.Ville;
+                    await _dbContext.SaveChangesAsync();
+                    return existingSite.SiteID;
+                }
+                else
+                {
+                    throw new Exception("Un ou plusieurs salariés sont déjà affectés à ce site.");
+                }
+            }
+            else
+            {
+                // Le site n'existe pas, ajoute le site
                 _dbContext.Sites.Add(site);
                 await _dbContext.SaveChangesAsync();
                 return site.SiteID;
-
             }
-            return -1; 
-           
         }
+
+
 
         public async Task<int> UpdateSite(Site site)
         {
-            
+            // Vérifie si aucun employé n'est associé à ce departement
             if (!_dbContext.Employes.Any(e => e.SiteID == site.SiteID))
-            {
+            { 
                 _dbContext.Entry(site).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync();
                 return site.SiteID;
 
             }
-            return -1;
-       
+            throw new Exception("Un ou plusieurs salariés sont déjà affectés à ce site.");
+
         }
 
         public async Task<int> DeleteSite(int id)
@@ -71,9 +86,9 @@ namespace ProjetPersoAnnuaire.Services.SitesService
                 return site.SiteID;
 
             }
-            return -1;
+            throw new Exception("Un ou plusieurs salariés sont déjà affectés à ce site.");
 
-           
+
         }
     }
 

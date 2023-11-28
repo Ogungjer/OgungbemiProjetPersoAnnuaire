@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.Design;
 using ProjetPersoAnnuaire.Context;
-using ProjetPersoAnnuaire.Services.SitesService;
 using ProjetPersoAnnuaire.Services.DepartementService;
 using ProjetPersoAnnuaire.Services.EmployeService;
+using ProjetPersoAnnuaire.Services.SitesService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +17,7 @@ builder.Services.AddScoped<ISiteService, SiteService>();
 builder.Services.AddScoped<IDepartementService, DepartementService>();
 builder.Services.AddScoped<IEmployeService, EmployeService>();
 
-builder.Services.AddDbContext<DataContextAnnuaire> (options =>
+builder.Services.AddDbContext<DataContextAnnuaire>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 }

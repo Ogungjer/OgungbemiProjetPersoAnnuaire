@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using ProjetPersoAnnuaire.Models;
-using System.Threading.Tasks;
 using ProjetPersoAnnuaire.Services.DepartementService;
 
 namespace ProjetPersoAnnuaire.Controllers
@@ -48,7 +46,7 @@ namespace ProjetPersoAnnuaire.Controllers
         [HttpPost]
         public async Task<ActionResult<int>> AddDepartement(Departement departement)
         {
-           
+
             var departementId = await _departementService.AddDepartement(departement);
 
             // Retourne l'ID du nouveau departement ajouté sous forme de réponse OK

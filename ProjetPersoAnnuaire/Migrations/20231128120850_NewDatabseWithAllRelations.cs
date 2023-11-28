@@ -5,11 +5,37 @@
 namespace ProjetPersoAnnuaire.Migrations
 {
     /// <inheritdoc />
-    public partial class TableEmployes : Migration
+    public partial class NewDatabseWithAllRelations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Departements",
+                columns: table => new
+                {
+                    DepartementID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomDepartement = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departements", x => x.DepartementID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sites",
+                columns: table => new
+                {
+                    SiteID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Ville = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sites", x => x.SiteID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Employes",
                 columns: table => new
@@ -57,6 +83,12 @@ namespace ProjetPersoAnnuaire.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Employes");
+
+            migrationBuilder.DropTable(
+                name: "Departements");
+
+            migrationBuilder.DropTable(
+                name: "Sites");
         }
     }
 }

@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ProjetPersoAnnuaire.Context;
 using ProjetPersoAnnuaire.Models;
 
@@ -19,12 +16,13 @@ namespace ProjetPersoAnnuaire.Services.EmployeService
 
         public async Task<IEnumerable<Employe>> GetAllEmployes()
         {
-            return await _dbContext.Employes.ToListAsync();
+            return await _dbContext.Employes.Include(s => s.Site).Include(d => d.Departement).ToListAsync();
+            
         }
 
         public async Task<Employe> GetEmployeById(int id)
         {
-            return await _dbContext.Employes.FirstOrDefaultAsync(e => e.EmployeID == id);
+            return await _dbContext.Employes.Include(s => s.Site).Include(d => d.Departement).FirstOrDefaultAsync(e => e.EmployeID == id);
         }
 
 
@@ -41,6 +39,32 @@ namespace ProjetPersoAnnuaire.Services.EmployeService
             await _dbContext.SaveChangesAsync();
             return employe.EmployeID;
         }
+
+
+        
+        public async Task<IEnumerable<Employe>> SearchEmploye(string? nom = null, string? site = null, string? departement = null)
+        {
+            var query = _dbContext.Employes.Include(s => s.Site).Include(d => d.Departement).AsQueryable();
+
+            if (!string.IsNullOrEmpty(nom))
+            {
+                query = query.Where(e => e.Nom.Contains(nom) || e.Prenom.Contains(nom));
+            }
+
+            if (!string.IsNullOrEmpty(site))
+            {
+                query = query.Where(e => e.Site.Ville.Contains(site));
+            }
+
+            if (!string.IsNullOrEmpty(departement))
+            {
+                query = query.Where(e => e.Departement.NomDepartement.Contains(departement));
+            }
+
+            return await query.ToListAsync();
+        }
+        
+
 
         public async Task<int> DeleteEmploye(int id)
         {
