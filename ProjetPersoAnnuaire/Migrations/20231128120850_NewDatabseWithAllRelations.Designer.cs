@@ -11,8 +11,8 @@ using ProjetPersoAnnuaire.Context;
 namespace ProjetPersoAnnuaire.Migrations
 {
     [DbContext(typeof(DataContextAnnuaire))]
-    [Migration("20231103142752_DatabaseWithAllRelations")]
-    partial class DatabaseWithAllRelations
+    [Migration("20231128120850_NewDatabseWithAllRelations")]
+    partial class NewDatabseWithAllRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
