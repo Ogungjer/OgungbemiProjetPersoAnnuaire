@@ -5,7 +5,7 @@
 namespace ProjetPersoAnnuaire.Migrations
 {
     /// <inheritdoc />
-    public partial class DatabaseWithAllRelations : Migration
+    public partial class NewDatabseWithAllRelations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
